@@ -1,0 +1,47 @@
+name: update
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+defaults:
+  run:
+    shell: bash -CeEuo pipefail {0}
+
+jobs:
+  update:
+    needs: ["bench"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: build web
+        if: github.ref == 'refs/heads/main'
+        run: |
+          pnpm i
+          pnpm run build
+
+      - name: Deploy to doc branch
+        uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: doc
+          force_orphan: true
+          cname: github.com
