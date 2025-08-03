@@ -1,4 +1,66 @@
-const noteBaseUrl = "https://ahaoboy.github.io/free-piano//piano/";
+import A49 from "./assets/piano/a49.mp3?url&inline";
+import A50 from "./assets/piano/a50.mp3?url&inline";
+import A51 from "./assets/piano/a51.mp3?url&inline";
+import A52 from "./assets/piano/a52.mp3?url&inline";
+import A53 from "./assets/piano/a53.mp3?url&inline";
+import A54 from "./assets/piano/a54.mp3?url&inline";
+import A55 from "./assets/piano/a55.mp3?url&inline";
+import A56 from "./assets/piano/a56.mp3?url&inline";
+import A57 from "./assets/piano/a57.mp3?url&inline";
+import A48 from "./assets/piano/a48.mp3?url&inline";
+import A81 from "./assets/piano/a81.mp3?url&inline";
+import A87 from "./assets/piano/a87.mp3?url&inline";
+import A69 from "./assets/piano/a69.mp3?url&inline";
+import A82 from "./assets/piano/a82.mp3?url&inline";
+import A84 from "./assets/piano/a84.mp3?url&inline";
+import A89 from "./assets/piano/a89.mp3?url&inline";
+import A85 from "./assets/piano/a85.mp3?url&inline";
+import A73 from "./assets/piano/a73.mp3?url&inline";
+import A79 from "./assets/piano/a79.mp3?url&inline";
+import A80 from "./assets/piano/a80.mp3?url&inline";
+import A65 from "./assets/piano/a65.mp3?url&inline";
+import A83 from "./assets/piano/a83.mp3?url&inline";
+import A68 from "./assets/piano/a68.mp3?url&inline";
+import A70 from "./assets/piano/a70.mp3?url&inline";
+import A71 from "./assets/piano/a71.mp3?url&inline";
+import A72 from "./assets/piano/a72.mp3?url&inline";
+import A74 from "./assets/piano/a74.mp3?url&inline";
+import A75 from "./assets/piano/a75.mp3?url&inline";
+import A76 from "./assets/piano/a76.mp3?url&inline";
+import A90 from "./assets/piano/a90.mp3?url&inline";
+import A88 from "./assets/piano/a88.mp3?url&inline";
+import A67 from "./assets/piano/a67.mp3?url&inline";
+import A86 from "./assets/piano/a86.mp3?url&inline";
+import A66 from "./assets/piano/a66.mp3?url&inline";
+import A78 from "./assets/piano/a78.mp3?url&inline";
+import A77 from "./assets/piano/a77.mp3?url&inline";
+import B49 from "./assets/piano/b49.mp3?url&inline";
+import B50 from "./assets/piano/b50.mp3?url&inline";
+import B52 from "./assets/piano/b52.mp3?url&inline";
+import B53 from "./assets/piano/b53.mp3?url&inline";
+import B54 from "./assets/piano/b54.mp3?url&inline";
+import B56 from "./assets/piano/b56.mp3?url&inline";
+import B57 from "./assets/piano/b57.mp3?url&inline";
+import B81 from "./assets/piano/b81.mp3?url&inline";
+import B87 from "./assets/piano/b87.mp3?url&inline";
+import B69 from "./assets/piano/b69.mp3?url&inline";
+import B84 from "./assets/piano/b84.mp3?url&inline";
+import B89 from "./assets/piano/b89.mp3?url&inline";
+import B73 from "./assets/piano/b73.mp3?url&inline";
+import B79 from "./assets/piano/b79.mp3?url&inline";
+import B80 from "./assets/piano/b80.mp3?url&inline";
+import B83 from "./assets/piano/b83.mp3?url&inline";
+import B68 from "./assets/piano/b68.mp3?url&inline";
+import B71 from "./assets/piano/b71.mp3?url&inline";
+import B72 from "./assets/piano/b72.mp3?url&inline";
+import B74 from "./assets/piano/b74.mp3?url&inline";
+import B76 from "./assets/piano/b76.mp3?url&inline";
+import B90 from "./assets/piano/b90.mp3?url&inline";
+import B67 from "./assets/piano/b67.mp3?url&inline";
+import B86 from "./assets/piano/b86.mp3?url&inline";
+import B66 from "./assets/piano/b66.mp3?url&inline";
+
+console.log(A49);
 
 export default [
   {
@@ -7,8 +69,9 @@ export default [
     keyCode: "49",
     key: "1",
     char: "1",
-    url: noteBaseUrl + "a49.mp3",
+    url: "a49.mp3",
     type: "white",
+    base64: A49,
   },
   {
     id: 2,
@@ -16,8 +79,9 @@ export default [
     keyCode: "50",
     key: "2",
     char: "2",
-    url: noteBaseUrl + "a50.mp3",
+    url: "a50.mp3",
     type: "white",
+    base64: A50,
   },
   {
     id: 3,
@@ -25,8 +89,9 @@ export default [
     keyCode: "51",
     key: "3",
     char: "3",
-    url: noteBaseUrl + "a51.mp3",
+    url: "a51.mp3",
     type: "white",
+    base64: A51,
   },
   {
     id: 4,
@@ -34,8 +99,9 @@ export default [
     keyCode: "52",
     key: "4",
     char: "4",
-    url: noteBaseUrl + "a52.mp3",
+    url: "a52.mp3",
     type: "white",
+    base64: A52,
   },
   {
     id: 5,
@@ -43,8 +109,9 @@ export default [
     keyCode: "53",
     key: "5",
     char: "5",
-    url: noteBaseUrl + "a53.mp3",
+    url: "a53.mp3",
     type: "white",
+    base64: A53,
   },
   {
     id: 6,
@@ -52,8 +119,9 @@ export default [
     keyCode: "54",
     key: "6",
     char: "6",
-    url: noteBaseUrl + "a54.mp3",
+    url: "a54.mp3",
     type: "white",
+    base64: A54,
   },
   {
     id: 7,
@@ -61,8 +129,9 @@ export default [
     keyCode: "55",
     key: "7",
     char: "7",
-    url: noteBaseUrl + "a55.mp3",
+    url: "a55.mp3",
     type: "white",
+    base64: A55,
   },
   {
     id: 8,
@@ -70,8 +139,9 @@ export default [
     keyCode: "56",
     key: "8",
     char: "8",
-    url: noteBaseUrl + "a56.mp3",
+    url: "a56.mp3",
     type: "white",
+    base64: A56,
   },
   {
     id: 9,
@@ -79,8 +149,9 @@ export default [
     keyCode: "57",
     key: "9",
     char: "9",
-    url: noteBaseUrl + "a57.mp3",
+    url: "a57.mp3",
     type: "white",
+    base64: A57,
   },
   {
     id: 10,
@@ -88,8 +159,9 @@ export default [
     keyCode: "48",
     key: "0",
     char: "0",
-    url: noteBaseUrl + "a48.mp3",
+    url: "a48.mp3",
     type: "white",
+    base64: A48,
   },
   {
     id: 26,
@@ -97,8 +169,9 @@ export default [
     keyCode: "81",
     key: "Q",
     char: "q",
-    url: noteBaseUrl + "a81.mp3",
+    url: "a81.mp3",
     type: "white",
+    base64: A81,
   },
   {
     id: 32,
@@ -106,8 +179,9 @@ export default [
     keyCode: "87",
     key: "W",
     char: "w",
-    url: noteBaseUrl + "a87.mp3",
+    url: "a87.mp3",
     type: "white",
+    base64: A87,
   },
   {
     id: 14,
@@ -115,8 +189,9 @@ export default [
     keyCode: "69",
     key: "E",
     char: "e",
-    url: noteBaseUrl + "a69.mp3",
+    url: "a69.mp3",
     type: "white",
+    base64: A69,
   },
   {
     id: 27,
@@ -124,8 +199,9 @@ export default [
     keyCode: "82",
     key: "R",
     char: "r",
-    url: noteBaseUrl + "a82.mp3",
+    url: "a82.mp3",
     type: "white",
+    base64: A82,
   },
   {
     id: 29,
@@ -133,8 +209,9 @@ export default [
     keyCode: "84",
     key: "T",
     char: "t",
-    url: noteBaseUrl + "a84.mp3",
+    url: "a84.mp3",
     type: "white",
+    base64: A84,
   },
   {
     id: 34,
@@ -142,8 +219,9 @@ export default [
     keyCode: "89",
     key: "Y",
     char: "y",
-    url: noteBaseUrl + "a89.mp3",
+    url: "a89.mp3",
     type: "white",
+    base64: A89,
   },
   {
     id: 30,
@@ -151,8 +229,9 @@ export default [
     keyCode: "85",
     key: "U",
     char: "u",
-    url: noteBaseUrl + "a85.mp3",
+    url: "a85.mp3",
     type: "white",
+    base64: A85,
   },
   {
     id: 18,
@@ -160,8 +239,9 @@ export default [
     keyCode: "73",
     key: "I",
     char: "i",
-    url: noteBaseUrl + "a73.mp3",
+    url: "a73.mp3",
     type: "white",
+    base64: A73,
   },
   {
     id: 24,
@@ -169,8 +249,9 @@ export default [
     keyCode: "79",
     key: "O",
     char: "o",
-    url: noteBaseUrl + "a79.mp3",
+    url: "a79.mp3",
     type: "white",
+    base64: A79,
   },
   {
     id: 25,
@@ -178,8 +259,9 @@ export default [
     keyCode: "80",
     key: "P",
     char: "p",
-    url: noteBaseUrl + "a80.mp3",
+    url: "a80.mp3",
     type: "white",
+    base64: A80,
   },
   {
     id: 10,
@@ -187,8 +269,9 @@ export default [
     keyCode: "65",
     key: "A",
     char: "a",
-    url: noteBaseUrl + "a65.mp3",
+    url: "a65.mp3",
     type: "white",
+    base64: A65,
   },
   {
     id: 28,
@@ -196,8 +279,9 @@ export default [
     keyCode: "83",
     key: "S",
     char: "s",
-    url: noteBaseUrl + "a83.mp3",
+    url: "a83.mp3",
     type: "white",
+    base64: A83,
   },
   {
     id: 13,
@@ -205,8 +289,9 @@ export default [
     keyCode: "68",
     key: "D",
     char: "d",
-    url: noteBaseUrl + "a68.mp3",
+    url: "a68.mp3",
     type: "white",
+    base64: A68,
   },
   {
     id: 15,
@@ -214,8 +299,9 @@ export default [
     keyCode: "70",
     key: "F",
     char: "f",
-    url: noteBaseUrl + "a70.mp3",
+    url: "a70.mp3",
     type: "white",
+    base64: A70,
   },
   {
     id: 16,
@@ -223,8 +309,9 @@ export default [
     keyCode: "71",
     key: "G",
     char: "g",
-    url: noteBaseUrl + "a71.mp3",
+    url: "a71.mp3",
     type: "white",
+    base64: A71,
   },
   {
     id: 17,
@@ -232,8 +319,9 @@ export default [
     keyCode: "72",
     key: "H",
     char: "h",
-    url: noteBaseUrl + "a72.mp3",
+    url: "a72.mp3",
     type: "white",
+    base64: A72,
   },
   {
     id: 19,
@@ -241,8 +329,9 @@ export default [
     keyCode: "74",
     key: "J",
     char: "j",
-    url: noteBaseUrl + "a74.mp3",
+    url: "a74.mp3",
     type: "white",
+    base64: A74,
   },
   {
     id: 20,
@@ -250,8 +339,9 @@ export default [
     keyCode: "75",
     key: "K",
     char: "k",
-    url: noteBaseUrl + "a75.mp3",
+    url: "a75.mp3",
     type: "white",
+    base64: A75,
   },
   {
     id: 21,
@@ -259,8 +349,9 @@ export default [
     keyCode: "76",
     key: "L",
     char: "l",
-    url: noteBaseUrl + "a76.mp3",
+    url: "a76.mp3",
     type: "white",
+    base64: A76,
   },
   {
     id: 35,
@@ -268,8 +359,9 @@ export default [
     keyCode: "90",
     key: "Z",
     char: "z",
-    url: noteBaseUrl + "a90.mp3",
+    url: "a90.mp3",
     type: "white",
+    base64: A90,
   },
   {
     id: 33,
@@ -277,8 +369,9 @@ export default [
     keyCode: "88",
     key: "X",
     char: "x",
-    url: noteBaseUrl + "a88.mp3",
+    url: "a88.mp3",
     type: "white",
+    base64: A88,
   },
   {
     id: 12,
@@ -286,8 +379,9 @@ export default [
     keyCode: "67",
     key: "C",
     char: "c",
-    url: noteBaseUrl + "a67.mp3",
+    url: "a67.mp3",
     type: "white",
+    base64: A67,
   },
   {
     id: 31,
@@ -295,8 +389,9 @@ export default [
     keyCode: "86",
     key: "V",
     char: "v",
-    url: noteBaseUrl + "a86.mp3",
+    url: "a86.mp3",
     type: "white",
+    base64: A86,
   },
   {
     id: 11,
@@ -304,8 +399,9 @@ export default [
     keyCode: "66",
     key: "B",
     char: "b",
-    url: noteBaseUrl + "a66.mp3",
+    url: "a66.mp3",
     type: "white",
+    base64: A66,
   },
   {
     id: 23,
@@ -313,8 +409,9 @@ export default [
     keyCode: "78",
     key: "N",
     char: "n",
-    url: noteBaseUrl + "a78.mp3",
+    url: "a78.mp3",
     type: "white",
+    base64: A78,
   },
   {
     id: 22,
@@ -322,18 +419,19 @@ export default [
     keyCode: "77",
     key: "M",
     char: "m",
-    url: noteBaseUrl + "a77.mp3",
+    url: "a77.mp3",
     type: "white",
+    base64: A77,
   },
-
   {
     id: 36,
     name: "C#2",
     keyCode: "b49",
     key: "⇧<br>+<br>1",
     char: "!",
-    url: noteBaseUrl + "b49.mp3",
+    url: "b49.mp3",
     type: "black",
+    base64: B49,
   },
   {
     id: 37,
@@ -341,8 +439,9 @@ export default [
     keyCode: "b50",
     key: "⇧<br>+<br>2",
     char: "@",
-    url: noteBaseUrl + "b50.mp3",
+    url: "b50.mp3",
     type: "black",
+    base64: B50,
   },
   {
     id: 38,
@@ -350,8 +449,9 @@ export default [
     keyCode: "b52",
     key: "⇧<br>+<br>4",
     char: "$",
-    url: noteBaseUrl + "b52.mp3",
+    url: "b52.mp3",
     type: "black",
+    base64: B52,
   },
   {
     id: 39,
@@ -359,8 +459,9 @@ export default [
     keyCode: "b53",
     key: "⇧<br>+<br>5",
     char: "%",
-    url: noteBaseUrl + "b53.mp3",
+    url: "b53.mp3",
     type: "black",
+    base64: B53,
   },
   {
     id: 40,
@@ -368,8 +469,9 @@ export default [
     keyCode: "b54",
     key: "⇧<br>+<br>6",
     char: "^",
-    url: noteBaseUrl + "b54.mp3",
+    url: "b54.mp3",
     type: "black",
+    base64: B54,
   },
   {
     id: 41,
@@ -377,8 +479,9 @@ export default [
     keyCode: "b56",
     key: "⇧<br>+<br>8",
     char: "*",
-    url: noteBaseUrl + "b56.mp3",
+    url: "b56.mp3",
     type: "black",
+    base64: B56,
   },
   {
     id: 42,
@@ -386,8 +489,9 @@ export default [
     keyCode: "b57",
     key: "⇧<br>+<br>9",
     char: "(",
-    url: noteBaseUrl + "b57.mp3",
+    url: "b57.mp3",
     type: "black",
+    base64: B57,
   },
   {
     id: 43,
@@ -395,8 +499,9 @@ export default [
     keyCode: "b81",
     key: "⇧<br>+<br>Q",
     char: "Q",
-    url: noteBaseUrl + "b81.mp3",
+    url: "b81.mp3",
     type: "black",
+    base64: B81,
   },
   {
     id: 44,
@@ -404,8 +509,9 @@ export default [
     keyCode: "b87",
     key: "⇧<br>+<br>W",
     char: "W",
-    url: noteBaseUrl + "b87.mp3",
+    url: "b87.mp3",
     type: "black",
+    base64: B87,
   },
   {
     id: 45,
@@ -413,8 +519,9 @@ export default [
     keyCode: "b69",
     key: "⇧<br>+<br>E",
     char: "E",
-    url: noteBaseUrl + "b69.mp3",
+    url: "b69.mp3",
     type: "black",
+    base64: B69,
   },
   {
     id: 46,
@@ -422,8 +529,9 @@ export default [
     keyCode: "b84",
     key: "⇧<br>+<br>T",
     char: "T",
-    url: noteBaseUrl + "b84.mp3",
+    url: "b84.mp3",
     type: "black",
+    base64: B84,
   },
   {
     id: 47,
@@ -431,8 +539,9 @@ export default [
     keyCode: "b89",
     key: "⇧<br>+<br>Y",
     char: "Y",
-    url: noteBaseUrl + "b89.mp3",
+    url: "b89.mp3",
     type: "black",
+    base64: B89,
   },
   {
     id: 48,
@@ -440,8 +549,9 @@ export default [
     keyCode: "b73",
     key: "⇧<br>+<br>I",
     char: "I",
-    url: noteBaseUrl + "b73.mp3",
+    url: "b73.mp3",
     type: "black",
+    base64: B73,
   },
   {
     id: 49,
@@ -449,8 +559,9 @@ export default [
     keyCode: "b79",
     key: "⇧<br>+<br>O",
     char: "O",
-    url: noteBaseUrl + "b79.mp3",
+    url: "b79.mp3",
     type: "black",
+    base64: B79,
   },
   {
     id: 50,
@@ -458,8 +569,9 @@ export default [
     keyCode: "b80",
     key: "⇧<br>+<br>P",
     char: "P",
-    url: noteBaseUrl + "b80.mp3",
+    url: "b80.mp3",
     type: "black",
+    base64: B80,
   },
   {
     id: 51,
@@ -467,8 +579,9 @@ export default [
     keyCode: "b83",
     key: "⇧<br>+<br>S",
     char: "S",
-    url: noteBaseUrl + "b83.mp3",
+    url: "b83.mp3",
     type: "black",
+    base64: B83,
   },
   {
     id: 52,
@@ -476,8 +589,9 @@ export default [
     keyCode: "b68",
     key: "⇧<br>+<br>D",
     char: "D",
-    url: noteBaseUrl + "b68.mp3",
+    url: "b68.mp3",
     type: "black",
+    base64: B68,
   },
   {
     id: 53,
@@ -485,8 +599,9 @@ export default [
     keyCode: "b71",
     key: "⇧<br>+<br>G",
     char: "G",
-    url: noteBaseUrl + "b71.mp3",
+    url: "b71.mp3",
     type: "black",
+    base64: B71,
   },
   {
     id: 54,
@@ -494,8 +609,9 @@ export default [
     keyCode: "b72",
     key: "⇧<br>+<br>H",
     char: "H",
-    url: noteBaseUrl + "b72.mp3",
+    url: "b72.mp3",
     type: "black",
+    base64: B72,
   },
   {
     id: 55,
@@ -503,8 +619,9 @@ export default [
     keyCode: "b74",
     key: "⇧<br>+<br>J",
     char: "J",
-    url: noteBaseUrl + "b74.mp3",
+    url: "b74.mp3",
     type: "black",
+    base64: B74,
   },
   {
     id: 56,
@@ -512,8 +629,9 @@ export default [
     keyCode: "b76",
     key: "⇧<br>+<br>L",
     char: "L",
-    url: noteBaseUrl + "b76.mp3",
+    url: "b76.mp3",
     type: "black",
+    base64: B76,
   },
   {
     id: 57,
@@ -521,8 +639,9 @@ export default [
     keyCode: "b90",
     key: "⇧<br>+<br>Z",
     char: "Z",
-    url: noteBaseUrl + "b90.mp3",
+    url: "b90.mp3",
     type: "black",
+    base64: B90,
   },
   {
     id: 58,
@@ -530,8 +649,9 @@ export default [
     keyCode: "b67",
     key: "⇧<br>+<br>C",
     char: "C",
-    url: noteBaseUrl + "b67.mp3",
+    url: "b67.mp3",
     type: "black",
+    base64: B67,
   },
   {
     id: 59,
@@ -539,8 +659,9 @@ export default [
     keyCode: "b86",
     key: "⇧<br>+<br>V",
     char: "V",
-    url: noteBaseUrl + "b86.mp3",
+    url: "b86.mp3",
     type: "black",
+    base64: B86,
   },
   {
     id: 60,
@@ -548,72 +669,8 @@ export default [
     keyCode: "b66",
     key: "⇧<br>+<br>B",
     char: "B",
-    url: noteBaseUrl + "b66.mp3",
+    url: "b66.mp3",
     type: "black",
+    base64: B66,
   },
-];
-
-export const NotesMap = [
-  { name: "C2", file: "a49.mp3" },
-  { name: "D2", file: "a50.mp3" },
-  { name: "E2", file: "a51.mp3" },
-  { name: "F2", file: "a52.mp3" },
-  { name: "G2", file: "a53.mp3" },
-  { name: "A2", file: "a54.mp3" },
-  { name: "B2", file: "a55.mp3" },
-  { name: "C3", file: "a56.mp3" },
-  { name: "D3", file: "a57.mp3" },
-  { name: "E3", file: "a48.mp3" },
-  { name: "F3", file: "a81.mp3" },
-  { name: "G3", file: "a87.mp3" },
-  { name: "A3", file: "a69.mp3" },
-  { name: "B3", file: "a82.mp3" },
-  { name: "C4", file: "a84.mp3" },
-  { name: "D4", file: "a89.mp3" },
-  { name: "E4", file: "a85.mp3" },
-  { name: "F4", file: "a73.mp3" },
-  { name: "G4", file: "a79.mp3" },
-  { name: "A4", file: "a80.mp3" },
-  { name: "B4", file: "a65.mp3" },
-  { name: "C5", file: "a83.mp3" },
-  { name: "D5", file: "a68.mp3" },
-  { name: "E5", file: "a70.mp3" },
-  { name: "F5", file: "a71.mp3" },
-  { name: "G5", file: "a72.mp3" },
-  { name: "A5", file: "a74.mp3" },
-  { name: "B5", file: "a75.mp3" },
-  { name: "C6", file: "a76.mp3" },
-  { name: "D6", file: "a90.mp3" },
-  { name: "E6", file: "a88.mp3" },
-  { name: "F6", file: "a67.mp3" },
-  { name: "G6", file: "a86.mp3" },
-  { name: "A6", file: "a66.mp3" },
-  { name: "B6", file: "a78.mp3" },
-  { name: "C7", file: "a77.mp3" },
-
-  { name: "C#2", file: "b49.mp3" },
-  { name: "D#2", file: "b50.mp3" },
-  { name: "F#2", file: "b52.mp3" },
-  { name: "G#2", file: "b53.mp3" },
-  { name: "A#2", file: "b54.mp3" },
-  { name: "C#3", file: "b56.mp3" },
-  { name: "D#3", file: "b57.mp3" },
-  { name: "F#3", file: "b81.mp3" },
-  { name: "G#3", file: "b87.mp3" },
-  { name: "A#3", file: "b69.mp3" },
-  { name: "C#4", file: "b84.mp3" },
-  { name: "D#4", file: "b89.mp3" },
-  { name: "F#4", file: "b73.mp3" },
-  { name: "G#4", file: "b79.mp3" },
-  { name: "A#4", file: "b80.mp3" },
-  { name: "C#5", file: "b83.mp3" },
-  { name: "D#5", file: "b68.mp3" },
-  { name: "F#5", file: "b71.mp3" },
-  { name: "G#5", file: "b72.mp3" },
-  { name: "A#5", file: "b74.mp3" },
-  { name: "C#6", file: "b76.mp3" },
-  { name: "D#6", file: "b90.mp3" },
-  { name: "F#6", file: "b67.mp3" },
-  { name: "G#6", file: "b86.mp3" },
-  { name: "A#6", file: "b66.mp3" },
 ];

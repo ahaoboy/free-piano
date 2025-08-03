@@ -11,6 +11,7 @@ interface Note {
   key: string;
   url: string;
   type: string;
+  base64: string;
 }
 
 export type PianoProps = {
@@ -63,7 +64,7 @@ export const Piano: React.FC<PianoProps> = (
   const handleKeyDown = (note: Note) => {
     if (!pressedKeys.has(note.keyCode)) {
       setPressedKeys((prev) => new Set([...prev, note.keyCode]));
-      playAudio(note.url);
+      playAudio(note.base64);
     }
   };
 
