@@ -1,4 +1,4 @@
-const noteBaseUrl = "/piano/";
+const noteBaseUrl = "https://ahaoboy.github.io/free-piano//piano/";
 
 export default [
   {
