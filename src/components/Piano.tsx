@@ -121,7 +121,6 @@ export const Piano: React.FC<PianoProps> = (
     };
   });
 
-
   return (
     <Flex className="piano-container">
       <Flex className="white-keys">
