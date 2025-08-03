@@ -16,40 +16,42 @@ export type PianoProps = {
   showNote: boolean;
   showKey: boolean;
   showSolfa: boolean;
-  mute: boolean
+  mute: boolean;
 };
 
 function getBlackOffset(index: number, count: number) {
-  let offset = 0
-  const five = (index / 5) | 0
-  offset += five * 4
-  const mod = index % 5
+  let offset = 0;
+  const five = (index / 5) | 0;
+  offset += five * 4;
+  const mod = index % 5;
   if (mod >= 0) {
-    offset += 1
+    offset += 1;
   }
   if (mod >= 1) {
-    offset += 0
+    offset += 0;
   }
   if (mod >= 2) {
-    offset += 2
+    offset += 2;
   }
   if (mod >= 3) {
-    offset += 0
+    offset += 0;
   }
   if (mod >= 4) {
-    offset += 0
+    offset += 0;
   }
-  const translateX = `translateX(calc(${offset * 0.5 * 100}%))`
-  return translateX
+  const translateX = `translateX(calc(${offset * 0.5 * 100}%))`;
+  return translateX;
 }
 
-export const Piano: React.FC<PianoProps> = ({ showNote, showKey, showSolfa, mute }: PianoProps) => {
+export const Piano: React.FC<PianoProps> = (
+  { showNote, showKey, showSolfa, mute }: PianoProps,
+) => {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
 
   const playAudio = (url: string) => {
-    console.log('playAudio', mute, url)
+    console.log("playAudio", mute, url);
     if (mute) {
-      return
+      return;
     }
     const audio = new Audio(url);
     audio.play().catch((err) => {
@@ -111,17 +113,17 @@ export const Piano: React.FC<PianoProps> = ({ showNote, showKey, showSolfa, mute
   const whiteKeys = Notes.filter((note) => note.type === "white");
   const blackKeys = Notes.filter((note) => note.type === "black");
 
-  const blackWidth = `calc(100% / ${whiteKeys.length})`
+  const blackWidth = `calc(100% / ${whiteKeys.length})`;
 
   return (
     <Flex className="piano-container">
-      <Flex className="white-keys" >
+      <Flex className="white-keys">
         {whiteKeys.map((i) => (
           <Flex
             key={i.keyCode}
             className="piano-key white-key"
             onClick={() => {
-              console.log('white', i)
+              console.log("white", i);
               playAudio(i.url);
             }}
             vertical
@@ -139,11 +141,14 @@ export const Piano: React.FC<PianoProps> = ({ showNote, showKey, showSolfa, mute
             key={i.keyCode}
             className="piano-key black-key"
             onClick={() => {
-              console.log('black', i)
+              console.log("black", i);
               playAudio(i.url);
             }}
             vertical
-            style={{ width: blackWidth, transform: getBlackOffset(index, whiteKeys.length) }}
+            style={{
+              width: blackWidth,
+              transform: getBlackOffset(index, whiteKeys.length),
+            }}
           >
             {showKey && <Tag>{i.keyCode}</Tag>}
             {showNote && <Tag>{i.keyCode}</Tag>}
@@ -153,4 +158,4 @@ export const Piano: React.FC<PianoProps> = ({ showNote, showKey, showSolfa, mute
       </Flex>
     </Flex>
   );
-}
+};
