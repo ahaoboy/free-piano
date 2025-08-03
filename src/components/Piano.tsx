@@ -82,10 +82,11 @@ export const Piano: React.FC<PianoProps> = (
       if (mute) {
         return;
       }
-      let keyCode = e.keyCode.toString();
-
+      let keyCode = e.keyCode >= 96 && e.keyCode <= 105
+        ? (e.keyCode - (96 - 48)).toString()
+        : e.keyCode.toString();
       if (e.shiftKey) {
-        keyCode = "b" + e.keyCode.toString();
+        keyCode = "b" + e.keyCode;
       }
 
       setPressMap({ ...pressMap, [keyCode]: true });
@@ -99,7 +100,9 @@ export const Piano: React.FC<PianoProps> = (
       if (mute) {
         return;
       }
-      let keyCode = e.keyCode.toString();
+      let keyCode = e.keyCode >= 96 && e.keyCode <= 105
+        ? (e.keyCode - (96 - 48)).toString()
+        : e.keyCode.toString();
 
       if (e.shiftKey) {
         keyCode = "b" + e.keyCode.toString();
