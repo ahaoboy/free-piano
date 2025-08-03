@@ -60,8 +60,6 @@ import B67 from "./assets/piano/b67.mp3?url&inline";
 import B86 from "./assets/piano/b86.mp3?url&inline";
 import B66 from "./assets/piano/b66.mp3?url&inline";
 
-console.log(A49);
-
 export default [
   {
     id: 1,

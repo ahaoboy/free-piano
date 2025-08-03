@@ -58,3 +58,7 @@
   border: 2px solid black;
   flex-direction: column-reverse;
 }
+
+.piano-key.press-key {
+  background: yellow;
+}

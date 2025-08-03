@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Notes from "../notes";
 import "./Piano.css";
-import { Flex, Tag, Typography } from "antd";
+import { Flex, Typography } from "antd";
 
 const { Text } = Typography;
 interface Note {
@@ -45,20 +45,21 @@ function getBlackOffset(index: number) {
   return translateX;
 }
 
+const whiteKeys = Notes.filter((note) => note.type === "white");
+const blackKeys = Notes.filter((note) => note.type === "black");
+const blackWidth = `calc(100% / ${whiteKeys.length})`;
+
 export const Piano: React.FC<PianoProps> = (
   { showNote, showKey, showSolfa, mute }: PianoProps,
 ) => {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
-
+  const [pressMap, setPressMap] = useState<Record<string, boolean>>({});
   const playAudio = (url: string) => {
-    console.log("playAudio", mute, url);
     if (mute) {
       return;
     }
     const audio = new Audio(url);
-    audio.play().catch((err) => {
-      console.error("播放失败:", err);
-    });
+    audio.play();
   };
 
   const handleKeyDown = (note: Note) => {
@@ -78,12 +79,16 @@ export const Piano: React.FC<PianoProps> = (
 
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (mute) {
+        return;
+      }
       let keyCode = e.keyCode.toString();
 
       if (e.shiftKey) {
         keyCode = "b" + e.keyCode.toString();
       }
 
+      setPressMap({ ...pressMap, [keyCode]: true });
       const note = Notes.find((n) => n.keyCode === keyCode);
       if (note) {
         handleKeyDown(note);
@@ -91,11 +96,15 @@ export const Piano: React.FC<PianoProps> = (
     };
 
     const handleGlobalKeyUp = (e: KeyboardEvent) => {
+      if (mute) {
+        return;
+      }
       let keyCode = e.keyCode.toString();
 
       if (e.shiftKey) {
         keyCode = "b" + e.keyCode.toString();
       }
+      setPressMap({ ...pressMap, [keyCode]: false });
 
       const note = Notes.find((n) => n.keyCode === keyCode);
       if (note) {
@@ -112,10 +121,6 @@ export const Piano: React.FC<PianoProps> = (
     };
   });
 
-  const whiteKeys = Notes.filter((note) => note.type === "white");
-  const blackKeys = Notes.filter((note) => note.type === "black");
-
-  const blackWidth = `calc(100% / ${whiteKeys.length})`;
 
   return (
     <Flex className="piano-container">
@@ -123,10 +128,10 @@ export const Piano: React.FC<PianoProps> = (
         {whiteKeys.map((i, index) => (
           <Flex
             key={i.keyCode}
-            className="piano-key white-key"
+            className={"piano-key white-key" +
+              (pressMap[i.keyCode] ? " press-key" : "")}
             onClick={() => {
-              console.log("white", i);
-              playAudio(i.url);
+              playAudio(i.base64);
             }}
             vertical
           >
@@ -145,10 +150,10 @@ export const Piano: React.FC<PianoProps> = (
         {blackKeys.map((i, index) => (
           <Flex
             key={i.keyCode}
-            className="piano-key black-key"
+            className={"piano-key black-key" +
+              (pressMap[i.keyCode] ? " press-key" : "")}
             onClick={() => {
-              console.log("black", i);
-              playAudio(i.url);
+              playAudio(i.base64);
             }}
             vertical
             style={{

@@ -8,7 +8,6 @@ import {
   Flex,
   Switch,
   theme,
-  Typography,
 } from "antd";
 import { getData, getItem, type Item } from "./api";
 import Fuse from "fuse.js";
