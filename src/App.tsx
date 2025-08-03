@@ -17,7 +17,7 @@ const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 function App() {
   const [showKey, setShowKey] = useState(true);
-  const [showNote, setShowNote] = useState(true);
+  const [showNote, setShowNote] = useState(false);
   const [showSolfa, setShowSolfa] = useState(false);
   const [options, setOptions] = React.useState<AutoCompleteProps["options"]>(
     [],

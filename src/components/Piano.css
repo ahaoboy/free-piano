@@ -23,6 +23,7 @@
   padding: 0;
   margin: 0;
   display: flex !important;
+  text-align: center;
 }
 
 .piano-key:hover {
@@ -38,10 +39,11 @@
 }
 
 .white-key {
-  background: deepskyblue;
+  background: white;
   box-sizing: border-box;
-  border: 2px solid deepskyblue;
+  border: 2px solid white;
   flex-grow: 1;
+  flex-direction: column-reverse;
 }
 
 .black-keys {
@@ -54,4 +56,5 @@
   background: black;
   box-sizing: border-box;
   border: 2px solid black;
+  flex-direction: column-reverse;
 }

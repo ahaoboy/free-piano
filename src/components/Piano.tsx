@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Notes from "../notes";
 import "./Piano.css";
-import { Flex, Tag } from "antd";
+import { Flex, Tag, Typography } from "antd";
 
+const { Text } = Typography;
 interface Note {
   id: number;
   name: string;
@@ -19,7 +20,7 @@ export type PianoProps = {
   mute: boolean;
 };
 
-function getBlackOffset(index: number, count: number) {
+function getBlackOffset(index: number) {
   let offset = 0;
   const five = (index / 5) | 0;
   offset += five * 4;
@@ -118,7 +119,7 @@ export const Piano: React.FC<PianoProps> = (
   return (
     <Flex className="piano-container">
       <Flex className="white-keys">
-        {whiteKeys.map((i) => (
+        {whiteKeys.map((i, index) => (
           <Flex
             key={i.keyCode}
             className="piano-key white-key"
@@ -128,9 +129,13 @@ export const Piano: React.FC<PianoProps> = (
             }}
             vertical
           >
-            {showKey && <Tag>{i.keyCode}</Tag>}
-            {showNote && <Tag>{i.keyCode}</Tag>}
-            {showSolfa && <Tag>{i.keyCode}</Tag>}
+            {showSolfa && (
+              <Text>
+                {["do", "re", "mi", "fa", "so", "la", "si"][index % 5]}
+              </Text>
+            )}
+            {showNote && <Text>{i.name}</Text>}
+            {showKey && <Text>{i.char}</Text>}
           </Flex>
         ))}
       </Flex>
@@ -147,12 +152,11 @@ export const Piano: React.FC<PianoProps> = (
             vertical
             style={{
               width: blackWidth,
-              transform: getBlackOffset(index, whiteKeys.length),
+              transform: getBlackOffset(index),
             }}
+            align="center"
           >
-            {showKey && <Tag>{i.keyCode}</Tag>}
-            {showNote && <Tag>{i.keyCode}</Tag>}
-            {showSolfa && <Tag>{i.keyCode}</Tag>}
+            {showKey && <Text>{i.char}</Text>}
           </Flex>
         ))}
       </Flex>
