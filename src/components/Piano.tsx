@@ -2,15 +2,9 @@ import React, { useEffect, useState } from "react";
 import Notes from "../notes";
 import "./Piano.css";
 import { Flex, Typography } from "antd";
-import {
-  BlackKeys,
-  getBlackOffsetX,
-  getWhiteOffsetX,
-  KeyWidth,
-  WhiteKeys,
-} from "../core";
+import { BlackKeys, getBlackOffsetX, KeyWidth, WhiteKeys } from "../core";
 
-const { Text } = Typography;
+const { Title } = Typography;
 interface Note {
   id: number;
   name: string;
@@ -118,12 +112,12 @@ export const Piano: React.FC<PianoProps> = (
             }}
           >
             {showSolfa && (
-              <Text>
+              <Title>
                 {["do", "re", "mi", "fa", "so", "la", "si"][index % 5]}
-              </Text>
+              </Title>
             )}
-            {showNote && <Text>{i.name}</Text>}
-            {showKey && <Text>{i.char}</Text>}
+            {showNote && <Title>{i.name}</Title>}
+            {showKey && <Title>{i.char}</Title>}
           </Flex>
         ))}
       </Flex>
@@ -144,8 +138,8 @@ export const Piano: React.FC<PianoProps> = (
             }}
             align="center"
           >
-            {showNote && <Text>{i.name}</Text>}
-            {showKey && <Text>{i.char}</Text>}
+            {showNote && <Title>{i.name}</Title>}
+            {showKey && <Title>{i.char}</Title>}
           </Flex>
         ))}
       </Flex>

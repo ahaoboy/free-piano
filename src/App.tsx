@@ -15,16 +15,17 @@ import {
 import { getData, getItem, type Item } from "./api";
 import Fuse from "fuse.js";
 import { Rain } from "./components/Rain";
-const { defaultAlgorithm, darkAlgorithm } = theme;
-const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 import {
   GithubOutlined,
+  MoonOutlined,
   PauseOutlined,
   PlayCircleOutlined,
+  SunOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
 import { decode, NoteEvent } from "free-piano-midi";
 
+const { defaultAlgorithm, darkAlgorithm } = theme;
 const FPS = 10;
 
 function App() {
@@ -42,6 +43,9 @@ function App() {
   const [mute, setMute] = useState(false);
   const [notes, setNotes] = useState<NoteEvent[]>([]);
   const [now, setNow] = useState(0);
+  const [isDark, setIsDark] = useState(
+    window.matchMedia("(prefers-color-scheme: dark)").matches,
+  );
 
   const invRef = useRef<number>(0);
   useEffect(() => {
@@ -65,11 +69,10 @@ function App() {
 
   function play() {
     invRef.current = +setInterval(() => setNow((i) => i + 1 / FPS), 1000 / FPS);
-    console.log("play", invRef.current);
   }
   function pause() {
-    console.log("pause", invRef.current);
     clearInterval(invRef.current);
+    invRef.current = 0;
   }
   return (
     <ConfigProvider
@@ -96,6 +99,17 @@ function App() {
               >
                 <GithubOutlined />
               </Typography.Link>
+              {isDark
+                ? (
+                  <Typography.Link onClick={() => setIsDark(false)}>
+                    <SunOutlined />
+                  </Typography.Link>
+                )
+                : (
+                  <Typography.Link onClick={() => setIsDark(true)}>
+                    <MoonOutlined />
+                  </Typography.Link>
+                )}
             </Flex>
 
             <Flex justify="center" align="center" gap="small">
@@ -198,19 +212,23 @@ function App() {
                   const fileBuffer = new Uint8Array(await file.arrayBuffer());
                   const v = await decode(fileBuffer);
                   setNotes(v || []);
-                  // play();
                 }
               }}
             >
               <Button icon={<UploadOutlined />}>Upload</Button>
             </Upload>
-            <Button icon={<PauseOutlined />} onClick={pause}>Pause</Button>
-            <Button icon={<PlayCircleOutlined />} onClick={play}>Play</Button>
+            {!!invRef.current
+              ? <Button icon={<PauseOutlined />} onClick={pause}>Pause</Button>
+              : (
+                <Button icon={<PlayCircleOutlined />} onClick={play}>
+                  Play
+                </Button>
+              )}
           </Flex>
         </Flex>
 
         <Flex className="score-main">
-          <div dangerouslySetInnerHTML={{ __html: score }}></div>
+          <Typography.Title>{score}</Typography.Title>
         </Flex>
         <Flex>
         </Flex>

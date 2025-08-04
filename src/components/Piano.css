@@ -1,15 +1,3 @@
-:root {
-  --piano-width: 90vw;
-  --piano-max-width: 1200px;
-  --piano-min-width: 600px;
-  --white-key-height: 20vh;
-  --white-key-min-height: 120px;
-  --white-key-max-height: 300px;
-  --black-key-height: 12vh;
-  --black-key-min-height: 80px;
-  --black-key-max-height: 180px;
-}
-
 .piano-container {
   width: 100%;
   height: 100%;
@@ -24,6 +12,7 @@
   margin: 0;
   display: flex !important;
   text-align: center;
+  font-weight: bold;
 }
 
 .piano-key:hover {
@@ -35,15 +24,15 @@
 .white-keys {
   width: 100%;
   height: 100%;
-  /* position: absolute; */
 }
 
 .white-key {
-  background: white;
+  background: var(--white-key-bg);
   box-sizing: border-box;
-  border: 2px solid white;
+  border: 2px solid var(--white-key-bg);
   flex-grow: 1;
   flex-direction: column-reverse;
+  color: var(--white-key-color);
 }
 
 .black-keys {
@@ -53,12 +42,13 @@
 }
 
 .black-key {
-  background: black;
+  background: var(--black-key-bg);
   box-sizing: border-box;
-  border: 2px solid black;
+  border: 2px solid var(--black-key-bg);
+  color: var(--black-key-color);
   flex-direction: column-reverse;
 }
 
-.piano-key.press-key {
-  background: yellow;
+.piano-key.press-key.white-key {
+  background: var(--white-key-highlight);
 }
