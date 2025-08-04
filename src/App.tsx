@@ -168,15 +168,14 @@ function App() {
               customRequest={(e) => e.onSuccess?.(true)}
               showUploadList={false}
               onChange={async (info) => {
-                const ext = info.file.name.split('.').at(-1) || ''
-                console.log('ext', ext)
+                const ext = info.file.name.split(".").at(-1) || "";
                 if (["txt"].includes(ext)) {
-                  const txt = (await info.file.originFileObj?.text())
+                  const txt = await info.file.originFileObj?.text();
                   setScore(txt || "");
                   return;
                 }
                 if ("html".includes(ext)) {
-                  const html = (await info.file.originFileObj?.text()) || ''
+                  const html = (await info.file.originFileObj?.text()) || "";
                   const parser = new DOMParser();
                   const doc = parser.parseFromString(html, "text/html");
                   const txt = doc.body.textContent || "";
