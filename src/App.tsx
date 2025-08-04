@@ -168,7 +168,13 @@ function App() {
               customRequest={(e) => e.onSuccess?.(true)}
               showUploadList={false}
               onChange={async (info) => {
-                const ext = info.file.name.split(".").at(-1) || "";
+                if (info.file.status === "done") {
+                  return;
+                }
+
+                const ext = info.file.name.split(".").at(-1)?.toLowerCase() ||
+                  "";
+
                 if (["txt"].includes(ext)) {
                   const txt = await info.file.originFileObj?.text();
                   setScore(txt || "");
@@ -183,19 +189,17 @@ function App() {
                   return;
                 }
 
-                if (info.file.status === "done") {
-                  return;
+                if (["mid", "midi"].includes(ext)) {
+                  setData([]);
+                  const file = info.file.originFileObj;
+                  if (!file) {
+                    return;
+                  }
+                  const fileBuffer = new Uint8Array(await file.arrayBuffer());
+                  const v = await decode(fileBuffer);
+                  setNotes(v || []);
+                  // play();
                 }
-
-                setData([]);
-                const file = info.file.originFileObj;
-                if (!file) {
-                  return;
-                }
-                const fileBuffer = new Uint8Array(await file.arrayBuffer());
-                const v = await decode(fileBuffer);
-                setNotes(v || []);
-                play();
               }}
             >
               <Button icon={<UploadOutlined />}>Upload</Button>
