@@ -41,7 +41,9 @@ function getOffset(index: number) {
 }
 
 function getNoteOffsetX(note: NoteEvent) {
-  const name = note.code ? midiNoteToVirtualPianoName(note.code) : Notes.find((i) => i.char === (note as any).char)?.name || "";
+  const name = note.code
+    ? midiNoteToVirtualPianoName(note.code)
+    : Notes.find((i) => i.char === (note as any).char)?.name || "";
   const i = Notes.find((i) => i.name === name);
   const isBlack = i?.name.includes("#");
   if (!i) return "";
@@ -71,7 +73,9 @@ function getNoteOffsetY(
 function Note({ note, now, duration }: NoteProps) {
   const offsetX = getNoteOffsetX(note);
   const offsetY = getNoteOffsetY(note, now, duration, 2);
-  const name = note.code ? midiNoteToVirtualPianoName(note.code) : Notes.find((i) => i.char === (note as any).char)?.name || "";
+  const name = note.code
+    ? midiNoteToVirtualPianoName(note.code)
+    : Notes.find((i) => i.char === (note as any).char)?.name || "";
   const isBlack = name.includes("#");
   const blackIndex = BlackKeys.findIndex((i) => i.name === name);
   const whiteIndex = WhiteKeys.findIndex((i) => i.name === name);
@@ -109,7 +113,9 @@ function inWindow(event: NoteEvent, now: number, duration: number) {
 }
 
 function playNote(note: NoteEvent) {
-  const name = note.code ? midiNoteToVirtualPianoName(note.code) : Notes.find((i) => i.char === (note as any).char)?.name || "";
+  const name = note.code
+    ? midiNoteToVirtualPianoName(note.code)
+    : Notes.find((i) => i.char === (note as any).char)?.name || "";
   const blackIndex = BlackKeys.findIndex((i) => i.name === name);
   const whiteIndex = WhiteKeys.findIndex((i) => i.name === name);
   const item = BlackKeys[blackIndex] || WhiteKeys[whiteIndex];

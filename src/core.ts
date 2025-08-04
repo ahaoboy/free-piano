@@ -63,13 +63,14 @@ export function getWhiteOffsetX(index: number) {
   return translateX;
 }
 
-
 export function textToMidi(input: string): NoteEvent[] {
-
   // Mapping characters to MIDI note numbers starting from 60 (middle C)
   const charToNote: { [key: string]: number } = {};
   let note = 60;
-  for (const char of '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@$%^*(') {
+  for (
+    const char
+      of "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@$%^*("
+  ) {
     charToNote[char] = note++;
   }
 
@@ -82,15 +83,14 @@ export function textToMidi(input: string): NoteEvent[] {
     const char = input[i];
 
     // Skip whitespace (spaces and newlines)
-    if (char === ' ' || char === '\n') {
+    if (char === " " || char === "\n") {
       i++;
       continue;
-    }
-    // Handle chords enclosed in square brackets
-    else if (char === '[') {
-      const endIndex = input.indexOf(']', i + 1);
+    } // Handle chords enclosed in square brackets
+    else if (char === "[") {
+      const endIndex = input.indexOf("]", i + 1);
       if (endIndex === -1) {
-        throw new Error('Missing closing bracket ]');
+        throw new Error("Missing closing bracket ]");
       }
       const chordChars = input.slice(i + 1, endIndex);
       // All notes in the chord start and end at the same time
@@ -101,26 +101,24 @@ export function textToMidi(input: string): NoteEvent[] {
             code: 0,
             start: t,
             end: t + d,
-            free: () => { }
+            free: () => {},
           } as any);
         }
       }
       i = endIndex + 1;
       t += d; // Advance time after the chord
-    }
-    // Handle single notes
+    } // Handle single notes
     else if (char in charToNote) {
       events.push({
         code: 0,
         char: char,
         start: t,
         end: t + d,
-        free: () => { }
+        free: () => {},
       } as any);
       i++;
       t += d; // Advance time after the note
-    }
-    // Ignore unrecognized characters
+    } // Ignore unrecognized characters
     else {
       i++;
     }
@@ -128,8 +126,6 @@ export function textToMidi(input: string): NoteEvent[] {
 
   return events;
 }
-
-
 
 // const TICKS_PER_QUARTER = 500;
 

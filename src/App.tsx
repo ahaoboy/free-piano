@@ -7,6 +7,8 @@ import {
   Button,
   ConfigProvider,
   Flex,
+  Progress,
+  Slider,
   Switch,
   Tabs,
   theme,
@@ -21,6 +23,7 @@ import {
   MoonOutlined,
   PauseOutlined,
   PlayCircleOutlined,
+  RedoOutlined,
   SunOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
@@ -48,8 +51,11 @@ function App() {
   const [isDark, setIsDark] = useState(
     window.matchMedia("(prefers-color-scheme: dark)").matches,
   );
+  const [inv, setInv] = useState(0);
 
-  const [inv, setInv] = useState(0)
+  const maxTime = notes.at(-1)?.end || 0;
+  const progress = now / maxTime * 100 | 0;
+
   useEffect(() => {
     getData().then((i) => {
       setData(i);
@@ -70,11 +76,16 @@ function App() {
   }
 
   function play() {
-    setInv(+setInterval(() => setNow((i) => i + 1 / FPS), 1000 / FPS))
+    setInv(+setInterval(() => setNow((i) => i + 1 / FPS), 1000 / FPS));
   }
   function pause() {
     clearInterval(inv);
-    setInv(0)
+    setInv(0);
+  }
+  function redo() {
+    clearInterval(inv);
+    setInv(0);
+    setNow(0);
   }
 
   return (
@@ -168,7 +179,7 @@ function App() {
                 setScore(txt);
                 const item = data.find((i) => i.id === +e);
                 setSearchText(item?.title || "");
-                setNotes(textToMidi(txt))
+                setNotes(textToMidi(txt));
               }}
               onChange={(e) => {
                 setSearchText(e);
@@ -194,18 +205,18 @@ function App() {
                   "";
 
                 if (["txt"].includes(ext)) {
-                  const txt = (await info.file.originFileObj?.text()) || ''
+                  const txt = (await info.file.originFileObj?.text()) || "";
                   setScore(txt);
-                  setNotes(textToMidi(txt))
+                  setNotes(textToMidi(txt));
                   return;
                 }
                 if ("html".includes(ext)) {
-                  const html = (await info.file.originFileObj?.text()) || ''
+                  const html = (await info.file.originFileObj?.text()) || "";
                   const parser = new DOMParser();
                   const doc = parser.parseFromString(html, "text/html");
                   const txt = doc.body.textContent || "";
                   setScore(txt);
-                  setNotes(textToMidi(txt))
+                  setNotes(textToMidi(txt));
                   return;
                 }
 
@@ -230,26 +241,50 @@ function App() {
                   Play
                 </Button>
               )}
+
+            <Button icon={<RedoOutlined />} onClick={redo}>
+              Replay
+            </Button>
+
+            <Flex className="app-progress" justify="center" align="center">
+              <Progress
+                className="progress-bar"
+                percent={progress}
+                percentPosition={{ align: "center", type: "inner" }}
+                size={[200, 20]}
+                strokeColor="#E6F4FF"
+              />
+            </Flex>
           </Flex>
         </Flex>
-        <Tabs centered items={[
-          {
-            key: "text",
-            label: "text",
-            children: <Flex className="score-main">
-              <Typography.Title>{score}</Typography.Title>
-            </Flex>
-          },
-          {
-            key: "midi",
-            label: "midi",
-            children: <Flex className="app-rain">
-              <Rain notes={notes} now={now} duration={10} autoplay={autoplay}>
-              </Rain>
-            </Flex>
-          }
-        ]}
-
+        <Tabs
+          centered
+          items={[
+            {
+              key: "text",
+              label: "text",
+              children: (
+                <Flex className="score-main">
+                  <Typography.Title>{score}</Typography.Title>
+                </Flex>
+              ),
+            },
+            {
+              key: "midi",
+              label: "midi",
+              children: (
+                <Flex className="app-rain">
+                  <Rain
+                    notes={notes}
+                    now={now}
+                    duration={10}
+                    autoplay={autoplay}
+                  >
+                  </Rain>
+                </Flex>
+              ),
+            },
+          ]}
           className="app-tab"
         />
 
@@ -262,9 +297,7 @@ function App() {
           />
         </Flex>
       </Flex>
-
-
-    </ConfigProvider >
+    </ConfigProvider>
   );
 }
 

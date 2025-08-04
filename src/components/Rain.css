@@ -22,11 +22,10 @@
   background: darkblue;
 }
 
-
-.ant-tabs-tabpane{
-  height: 100% !important
+.ant-tabs-tabpane {
+  height: 100% !important;
 }
 
-.ant-tabs-content{
-  height: 100% !important
+.ant-tabs-content {
+  height: 100% !important;
 }
