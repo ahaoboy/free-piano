@@ -29,7 +29,7 @@
 .white-key {
   background: var(--white-key-bg);
   box-sizing: border-box;
-  border: 2px solid var(--white-key-bg);
+  border: 2px solid var(--white-key-color);
   flex-grow: 1;
   flex-direction: column-reverse;
   color: var(--white-key-color);
@@ -44,7 +44,7 @@
 .black-key {
   background: var(--black-key-bg);
   box-sizing: border-box;
-  border: 2px solid var(--black-key-bg);
+  border: 2px solid var(--black-key-color);
   color: var(--black-key-color);
   flex-direction: column-reverse;
 }

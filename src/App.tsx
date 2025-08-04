@@ -8,6 +8,7 @@ import {
   ConfigProvider,
   Flex,
   Switch,
+  Tabs,
   theme,
   Typography,
   Upload,
@@ -24,6 +25,7 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { decode, NoteEvent } from "free-piano-midi";
+import { textToMidi } from "./core";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const FPS = 10;
@@ -47,7 +49,7 @@ function App() {
     window.matchMedia("(prefers-color-scheme: dark)").matches,
   );
 
-  const invRef = useRef<number>(0);
+  const [inv, setInv] = useState(0)
   useEffect(() => {
     getData().then((i) => {
       setData(i);
@@ -68,12 +70,13 @@ function App() {
   }
 
   function play() {
-    invRef.current = +setInterval(() => setNow((i) => i + 1 / FPS), 1000 / FPS);
+    setInv(+setInterval(() => setNow((i) => i + 1 / FPS), 1000 / FPS))
   }
   function pause() {
-    clearInterval(invRef.current);
-    invRef.current = 0;
+    clearInterval(inv);
+    setInv(0)
   }
+
   return (
     <ConfigProvider
       theme={{ algorithm: isDark ? darkAlgorithm : defaultAlgorithm }}
@@ -165,6 +168,7 @@ function App() {
                 setScore(txt);
                 const item = data.find((i) => i.id === +e);
                 setSearchText(item?.title || "");
+                setNotes(textToMidi(txt))
               }}
               onChange={(e) => {
                 setSearchText(e);
@@ -190,16 +194,18 @@ function App() {
                   "";
 
                 if (["txt"].includes(ext)) {
-                  const txt = await info.file.originFileObj?.text();
-                  setScore(txt || "");
+                  const txt = (await info.file.originFileObj?.text()) || ''
+                  setScore(txt);
+                  setNotes(textToMidi(txt))
                   return;
                 }
                 if ("html".includes(ext)) {
-                  const html = (await info.file.originFileObj?.text()) || "";
+                  const html = (await info.file.originFileObj?.text()) || ''
                   const parser = new DOMParser();
                   const doc = parser.parseFromString(html, "text/html");
                   const txt = doc.body.textContent || "";
-                  setScore(txt || "");
+                  setScore(txt);
+                  setNotes(textToMidi(txt))
                   return;
                 }
 
@@ -217,7 +223,7 @@ function App() {
             >
               <Button icon={<UploadOutlined />}>Upload</Button>
             </Upload>
-            {!!invRef.current
+            {!!inv
               ? <Button icon={<PauseOutlined />} onClick={pause}>Pause</Button>
               : (
                 <Button icon={<PlayCircleOutlined />} onClick={play}>
@@ -226,19 +232,27 @@ function App() {
               )}
           </Flex>
         </Flex>
+        <Tabs centered items={[
+          {
+            key: "text",
+            label: "text",
+            children: <Flex className="score-main">
+              <Typography.Title>{score}</Typography.Title>
+            </Flex>
+          },
+          {
+            key: "midi",
+            label: "midi",
+            children: <Flex className="app-rain">
+              <Rain notes={notes} now={now} duration={10} autoplay={autoplay}>
+              </Rain>
+            </Flex>
+          }
+        ]}
 
-        <Flex className="score-main">
-          <Typography.Title>{score}</Typography.Title>
-        </Flex>
-        <Flex>
-        </Flex>
+          className="app-tab"
+        />
 
-        <Flex className="app-rain">
-          {!!notes.length && (
-            <Rain notes={notes} now={now} duration={10} autoplay={autoplay}>
-            </Rain>
-          )}
-        </Flex>
         <Flex className="app-piano">
           <Piano
             mute={mute}
@@ -248,7 +262,9 @@ function App() {
           />
         </Flex>
       </Flex>
-    </ConfigProvider>
+
+
+    </ConfigProvider >
   );
 }
 

@@ -12,10 +12,21 @@
   margin: 0;
   display: flex !important;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 .note-white {
   background: green;
 }
 .note-black {
   background: darkblue;
+}
+
+
+.ant-tabs-tabpane{
+  height: 100% !important
+}
+
+.ant-tabs-content{
+  height: 100% !important
 }
