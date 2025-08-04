@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import Notes from "../notes";
 import "./Piano.css";
 import { Flex, Typography } from "antd";
+import {
+  BlackKeys,
+  getBlackOffsetX,
+  getWhiteOffsetX,
+  KeyWidth,
+  WhiteKeys,
+} from "../core";
 
 const { Text } = Typography;
 interface Note {
@@ -21,43 +28,12 @@ export type PianoProps = {
   mute: boolean;
 };
 
-function getBlackOffset(index: number) {
-  let offset = 0;
-  const five = (index / 5) | 0;
-  offset += five * 4;
-  const mod = index % 5;
-  if (mod >= 0) {
-    offset += 1;
-  }
-  if (mod >= 1) {
-    offset += 0;
-  }
-  if (mod >= 2) {
-    offset += 2;
-  }
-  if (mod >= 3) {
-    offset += 0;
-  }
-  if (mod >= 4) {
-    offset += 0;
-  }
-  const translateX = `translateX(calc(${offset * 0.5 * 100}%))`;
-  return translateX;
-}
-
-const whiteKeys = Notes.filter((note) => note.type === "white");
-const blackKeys = Notes.filter((note) => note.type === "black");
-const blackWidth = `calc(100% / ${whiteKeys.length})`;
-
 export const Piano: React.FC<PianoProps> = (
   { showNote, showKey, showSolfa, mute }: PianoProps,
 ) => {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
   const [pressMap, setPressMap] = useState<Record<string, boolean>>({});
   const playAudio = (url: string) => {
-    if (mute) {
-      return;
-    }
     const audio = new Audio(url);
     audio.play();
   };
@@ -127,7 +103,7 @@ export const Piano: React.FC<PianoProps> = (
   return (
     <Flex className="piano-container">
       <Flex className="white-keys">
-        {whiteKeys.map((i, index) => (
+        {WhiteKeys.map((i, index) => (
           <Flex
             key={i.keyCode}
             className={"piano-key white-key" +
@@ -136,6 +112,10 @@ export const Piano: React.FC<PianoProps> = (
               playAudio(i.base64);
             }}
             vertical
+            style={{
+              width: KeyWidth,
+              // transform: getWhiteOffsetX(index),
+            }}
           >
             {showSolfa && (
               <Text>
@@ -149,21 +129,22 @@ export const Piano: React.FC<PianoProps> = (
       </Flex>
 
       <Flex className="black-keys">
-        {blackKeys.map((i, index) => (
+        {BlackKeys.map((i, index) => (
           <Flex
             key={i.keyCode}
-            className={"piano-key black-key" +
+            className={`piano-key black-key BlackIndex_${index} ` +
               (pressMap[i.keyCode] ? " press-key" : "")}
             onClick={() => {
               playAudio(i.base64);
             }}
             vertical
             style={{
-              width: blackWidth,
-              transform: getBlackOffset(index),
+              width: KeyWidth,
+              transform: getBlackOffsetX(index),
             }}
             align="center"
           >
+            {showNote && <Text>{i.name}</Text>}
             {showKey && <Text>{i.char}</Text>}
           </Flex>
         ))}
