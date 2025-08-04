@@ -144,7 +144,10 @@ function App() {
               onSearch={(text) => setOptions(getPanelValue(text))}
               placeholder="input here"
               onSelect={async (e) => {
-                const txt = await getItem(e);
+                const html = await getItem(e);
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+                const txt = doc.body.textContent || "";
                 setScore(txt);
                 const item = data.find((i) => i.id === +e);
                 setSearchText(item?.title || "");
@@ -165,11 +168,22 @@ function App() {
               customRequest={(e) => e.onSuccess?.(true)}
               showUploadList={false}
               onChange={async (info) => {
-                if (info.file.name.endsWith(".txt")) {
-                  const txt = await info.file.originFileObj?.text();
+                const ext = info.file.name.split('.').at(-1) || ''
+                console.log('ext', ext)
+                if (["txt"].includes(ext)) {
+                  const txt = (await info.file.originFileObj?.text())
                   setScore(txt || "");
                   return;
                 }
+                if ("html".includes(ext)) {
+                  const html = (await info.file.originFileObj?.text()) || ''
+                  const parser = new DOMParser();
+                  const doc = parser.parseFromString(html, "text/html");
+                  const txt = doc.body.textContent || "";
+                  setScore(txt || "");
+                  return;
+                }
+
                 if (info.file.status === "done") {
                   return;
                 }
