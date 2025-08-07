@@ -30,10 +30,12 @@ import {
 import { decode, NoteEvent } from "free-piano-midi";
 import { textToMidi } from "./core";
 import type { Layout } from "./layout";
-import { preloadMidi, type AudioStyle } from "./audio";
+import { type AudioStyle, preloadMidi } from "./audio";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const FPS = 15;
+
+type TabPanel = "Text" | "Midi";
 
 function App() {
   const [showKey, setShowKey] = useState(true);
@@ -56,16 +58,18 @@ function App() {
   const [inv, setInv] = useState(0);
   const [layout, setLayout] = useState<Layout>("Full");
   const [audioStyle, setAudioStyle] = useState<AudioStyle>("Full");
-
+  const [tab, setTab] = useState<TabPanel>("Text");
   const maxTime = notes.at(-1)?.end || 0;
   const progress = now / maxTime * 100 | 0;
 
+  const textLevel = layout === "Full" ? 5 : 3;
+
   useEffect(() => {
-    const s = new Set(notes.map(i => i.code))
+    const s = new Set(notes.map((i) => i.code));
     for (const i of s) {
-      preloadMidi(i, audioStyle)
+      preloadMidi(i, audioStyle);
     }
-  }, [notes])
+  }, [notes]);
 
   useEffect(() => {
     getData().then((i) => {
@@ -99,6 +103,8 @@ function App() {
     setNow(0);
   }
 
+  const sliderMuteRef = useRef(false);
+  const sliderChangeRef = useRef(false);
   return (
     <ConfigProvider
       theme={{ algorithm: isDark ? darkAlgorithm : defaultAlgorithm }}
@@ -136,7 +142,7 @@ function App() {
                   </Typography.Link>
                 )}
             </Flex>
-
+            layout:
             <Select
               value={layout}
               style={{ width: 120 }}
@@ -252,6 +258,8 @@ function App() {
                   const fileBuffer = new Uint8Array(await file.arrayBuffer());
                   const v = await decode(fileBuffer);
                   setNotes(v || []);
+                  setLayout("Full");
+                  setTab("Midi");
                 }
               }}
             >
@@ -274,7 +282,16 @@ function App() {
                 className="progress-bar"
                 value={progress}
                 onChange={(e) => {
+                  setMute(true);
                   setNow(maxTime * e / 100);
+                  if (!sliderChangeRef.current) {
+                    sliderMuteRef.current = mute;
+                  }
+                  sliderChangeRef.current = true;
+                }}
+                onChangeComplete={(e) => {
+                  setMute(sliderMuteRef.current);
+                  sliderChangeRef.current = false;
                 }}
               />
               {progress}%
@@ -282,11 +299,15 @@ function App() {
           </Flex>
         </Flex>
         <Tabs
+          activeKey={tab}
+          onChange={(e) => {
+            setTab(e as TabPanel);
+          }}
           centered
           items={[
             {
-              key: "text",
-              label: "text",
+              key: "Text",
+              label: "Text",
               children: (
                 <Flex className="score-main">
                   <Typography.Title>{score}</Typography.Title>
@@ -294,8 +315,8 @@ function App() {
               ),
             },
             {
-              key: "midi",
-              label: "midi",
+              key: "Midi",
+              label: "Midi",
               children: (
                 <Flex className="app-rain">
                   <Rain
@@ -305,6 +326,7 @@ function App() {
                     now={now}
                     duration={10}
                     autoplay={autoplay}
+                    mute={mute}
                   >
                   </Rain>
                 </Flex>
@@ -322,6 +344,7 @@ function App() {
             showNote={showNote}
             showKey={showKey}
             showSolfa={showSolfa}
+            textLevel={textLevel}
           />
         </Flex>
       </Flex>

@@ -1,9 +1,14 @@
 import { Flex } from "antd";
 import "./Rain.css";
 import { NoteEvent } from "free-piano-midi";
-import { BlackKeys, KeyWidth, WhiteKeys } from "../core";
 import { useRef } from "react";
-import type { Layout } from "../layout";
+import {
+  getBlackKeys,
+  getBlackOffsetX,
+  getKeyWidth,
+  getWhiteKeys,
+  type Layout,
+} from "../layout";
 import { type AudioStyle, playMidi } from "../audio";
 import { getChar, isBlack } from "../keymap";
 
@@ -21,6 +26,8 @@ export type RainProps = {
   layout: Layout;
 
   audioStyle: AudioStyle;
+
+  mute: boolean;
 };
 
 export type NoteProps = {
@@ -30,21 +37,17 @@ export type NoteProps = {
 
   // second
   duration: number;
+
+  layout: Layout;
 };
 
-function getOffset(index: number) {
-  let offset = 0.5;
-  const five = (index / 5) | 0;
-  offset += five * 7;
-  const mod = index % 5;
-  offset += [0, 0, 1, 3, 4, 5][mod + 1];
-  return offset;
-}
+function getNoteOffsetX(note: NoteEvent, layout: Layout) {
+  const WhiteKeys = getWhiteKeys(layout);
+  const BlackKeys = getBlackKeys(layout);
 
-function getNoteOffsetX(note: NoteEvent) {
   if (isBlack(note.code)) {
     const index = BlackKeys.findIndex((i) => i.midi === note.code);
-    const offset = getOffset(index);
+    const offset = getBlackOffsetX(index, layout);
     const translateX = `translateX(calc(${offset * 100}%))`;
     return translateX;
   } else {
@@ -65,8 +68,8 @@ function getNoteOffsetY(
   return translateX;
 }
 
-function Note({ note, now, duration }: NoteProps) {
-  const offsetX = getNoteOffsetX(note);
+function Note({ note, now, duration, layout }: NoteProps) {
+  const offsetX = getNoteOffsetX(note, layout);
   const offsetY = getNoteOffsetY(note, now, duration, 2);
   const cls = [
     "note-item",
@@ -76,6 +79,7 @@ function Note({ note, now, duration }: NoteProps) {
   } else {
     cls.push("note-white");
   }
+  const KeyWidth = getKeyWidth(layout);
 
   return (
     <Flex
@@ -97,12 +101,14 @@ function inWindow(event: NoteEvent, now: number, duration: number) {
 }
 
 export const Rain = (
-  { notes, now, duration, autoplay, audioStyle }: RainProps,
+  { notes, now, duration, autoplay, audioStyle, layout, mute }: RainProps,
 ) => {
   const lastNotes = useRef<NoteEvent[]>([]);
   const currentNotes = notes.filter((i) => inWindow(i, now, duration));
-
-  if (autoplay) {
+  if (mute) {
+    lastNotes.current = [];
+  }
+  if (autoplay && !mute) {
     for (const i of lastNotes.current) {
       if (!currentNotes.includes(i)) {
         playMidi(i.code, audioStyle);
@@ -114,7 +120,13 @@ export const Rain = (
   return (
     <Flex className="rain-main">
       {currentNotes.map((i) => (
-        <Note key={JSON.stringify(i)} note={i} now={now} duration={duration} />
+        <Note
+          layout={layout}
+          key={JSON.stringify(i)}
+          note={i}
+          now={now}
+          duration={duration}
+        />
       ))}
     </Flex>
   );
