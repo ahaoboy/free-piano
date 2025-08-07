@@ -112,7 +112,7 @@ export function getMidiFromChar(c: string) {
 }
 
 export function getMidiFromEvent(e: KeyboardEvent) {
-  getMidiFromChar(e.key)
+  return getMidiFromChar(e.key)
 }
 
 export function getNoteName(midi: number) {
