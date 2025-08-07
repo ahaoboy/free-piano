@@ -7,7 +7,7 @@ import {
   Button,
   ConfigProvider,
   Flex,
-  Progress,
+  Select,
   Slider,
   Switch,
   Tabs,
@@ -29,9 +29,11 @@ import {
 } from "@ant-design/icons";
 import { decode, NoteEvent } from "free-piano-midi";
 import { textToMidi } from "./core";
+import type { Layout } from "./layout";
+import { preloadMidi, type AudioStyle } from "./audio";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
-const FPS = 10;
+const FPS = 15;
 
 function App() {
   const [showKey, setShowKey] = useState(true);
@@ -52,9 +54,18 @@ function App() {
     window.matchMedia("(prefers-color-scheme: dark)").matches,
   );
   const [inv, setInv] = useState(0);
+  const [layout, setLayout] = useState<Layout>("Full");
+  const [audioStyle, setAudioStyle] = useState<AudioStyle>("Full");
 
   const maxTime = notes.at(-1)?.end || 0;
   const progress = now / maxTime * 100 | 0;
+
+  useEffect(() => {
+    const s = new Set(notes.map(i => i.code))
+    for (const i of s) {
+      preloadMidi(i, audioStyle)
+    }
+  }, [notes])
 
   useEffect(() => {
     getData().then((i) => {
@@ -125,6 +136,18 @@ function App() {
                   </Typography.Link>
                 )}
             </Flex>
+
+            <Select
+              value={layout}
+              style={{ width: 120 }}
+              onChange={(e) => {
+                setLayout(e as Layout);
+              }}
+              options={[
+                { value: "Full", label: "Full" },
+                { value: "Small", label: "Small" },
+              ]}
+            />
 
             <Flex justify="center" align="center" gap="small">
               key:
@@ -247,13 +270,14 @@ function App() {
             </Button>
 
             <Flex className="app-progress" justify="center" align="center">
-              <Progress
+              <Slider
                 className="progress-bar"
-                percent={progress}
-                percentPosition={{ align: "center", type: "inner" }}
-                size={[200, 20]}
-                strokeColor="#E6F4FF"
+                value={progress}
+                onChange={(e) => {
+                  setNow(maxTime * e / 100);
+                }}
               />
+              {progress}%
             </Flex>
           </Flex>
         </Flex>
@@ -275,6 +299,8 @@ function App() {
               children: (
                 <Flex className="app-rain">
                   <Rain
+                    audioStyle={audioStyle}
+                    layout={layout}
                     notes={notes}
                     now={now}
                     duration={10}
@@ -290,6 +316,8 @@ function App() {
 
         <Flex className="app-piano">
           <Piano
+            audioStyle={audioStyle}
+            layout={layout}
             mute={mute}
             showNote={showNote}
             showKey={showKey}

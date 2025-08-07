@@ -1,8 +1,9 @@
 import type { NoteEvent } from "free-piano-midi";
 import Notes from "./notes";
 
-export const WhiteKeys = Notes.filter((note) => note.type === "white");
-export const BlackKeys = Notes.filter((note) => note.type === "black");
+export const WhiteKeys = Notes.filter((note) => !note.isBlack);
+export const BlackKeys = Notes.filter((note) => note.isBlack);
+console.log(WhiteKeys, BlackKeys);
 export const KeyWidth = `calc(100% / ${WhiteKeys.length})`;
 
 // export function midiNoteToVirtualPianoName(noteNumber: number): string {
