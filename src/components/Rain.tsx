@@ -105,9 +105,17 @@ export const Rain = (
 ) => {
   const lastNotes = useRef<NoteEvent[]>([]);
   const currentNotes = notes.filter((i) => inWindow(i, now, duration));
+
+  const lastNodesRef = useRef<NoteEvent[]>([]);
+  if (lastNodesRef.current !== notes) {
+    lastNodesRef.current = notes;
+    lastNotes.current = [];
+  }
+
   if (mute) {
     lastNotes.current = [];
   }
+
   if (autoplay && !mute) {
     for (const i of lastNotes.current) {
       if (!currentNotes.includes(i)) {

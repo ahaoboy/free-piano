@@ -1,12 +1,4 @@
 import type { NoteEvent } from "free-piano-midi";
-import type { Layout } from "./layout";
-
-// export function midiNoteToVirtualPianoName(noteNumber: number): string {
-//   const noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-//   const noteIndex = noteNumber % 12;
-//   const octave = Math.floor(noteNumber / 12) - 1;
-//   return `${noteNames[noteIndex]}${octave}`;
-// }
 
 export function midiNoteToVirtualPianoName(midi: number): string {
   const noteNames = [
@@ -28,12 +20,6 @@ export function midiNoteToVirtualPianoName(midi: number): string {
   const octave = Math.floor(midi / 12);
   return note + octave;
 }
-
-// export function getBlackOffsetX(index: number, layout:Layout) {
-//   let offset = getBlackOffsetX(index, layout)
-//   const translateX = `translateX(calc(${offset * 0.5 * 100}%))`;
-//   return translateX;
-// }
 
 export function getWhiteOffsetX(index: number) {
   let offset = 0;
@@ -104,88 +90,3 @@ export function textToMidi(input: string): NoteEvent[] {
 
   return events;
 }
-
-// const TICKS_PER_QUARTER = 500;
-
-// interface ParseOptions {
-//   ticksPerQuarter?: number;
-// }
-
-// export function textToMidi(
-//   input: string,
-//   options: ParseOptions = {}
-// ): (NoteEvent & {char:string})[] {
-//   const ticksPerQuarter = options.ticksPerQuarter || TICKS_PER_QUARTER;
-//   const events: (NoteEvent & {char:string})[] = [];
-//   let currentTime = 0;
-
-//   // Tokenize by spaces to handle sequences
-//   const tokens = input.trim().split(/\s+/);
-
-//   for (const token of tokens) {
-//     if (token === "|") {
-//       // Bar line: can be used to reset time or ignore
-//       continue;
-//     }
-//     let notes: string[] = [];
-//     let rapid = false;
-
-//     // Chord syntax [abc]
-//     if (/^\[.*\]$/.test(token)) {
-//       notes = token.slice(1, -1).split('');
-//     }
-//     // Rapid chord {abc}
-//     else if (/^\{.*\}$/.test(token)) {
-//       notes = token.slice(1, -1).split('');
-//       rapid = true; // shorter duration maybe
-//     }
-//     else {
-//       // Sequence of characters, e.g., "euu" or a single note like "a._"
-//       notes = token.split('');
-//     }
-
-//     for (const raw of notes) {
-//       // Parse duration suffixes: _ (eighth), __ (sixteenth), . (dotted)
-//       const match = raw.match(/^([0-9A-Za-z!@\$%\^\*\(]+)(_+)?(\.)?(-|~)?$/);
-//       if (!match) continue;
-//       const symbol = match[1];
-//       const underscores = match[2] || '';
-//       const dotted = !!match[3];
-//       // const tie = !!match[4]; // not implemented
-
-//       // Determine base duration
-//       let duration = ticksPerQuarter;
-//       if (underscores.length === 1) {
-//         duration = ticksPerQuarter / 2; // eighth note
-//       } else if (underscores.length === 2) {
-//         duration = ticksPerQuarter / 4; // sixteenth note
-//       }
-
-//       // Apply dotted
-//       if (dotted) {
-//         duration = duration * 1.5;
-//       }
-
-//       // Rapid sequence halves duration
-//       if (rapid) {
-//         duration = duration / 2;
-//       }
-
-//       // Map symbol to MIDI code
-//       const code = Notes.find(i => i.char === symbol)?.char;
-//       if (code === undefined) {
-//         console.warn(`Unknown symbol: ${symbol}`);
-//         continue;
-//       }
-
-//       events.push({
-//         code:0, start: currentTime / 1000, end: (currentTime + duration) / 1000, free: () => { },
-//         char: symbol
-//       });
-
-//       currentTime += duration;
-//     }
-//   }
-
-//   return events;
-// }

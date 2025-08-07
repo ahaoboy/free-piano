@@ -57,12 +57,12 @@ function App() {
   );
   const [inv, setInv] = useState(0);
   const [layout, setLayout] = useState<Layout>("Full");
-  const [audioStyle, setAudioStyle] = useState<AudioStyle>("Full");
+  const [audioStyle, _setAudioStyle] = useState<AudioStyle>("Full");
   const [tab, setTab] = useState<TabPanel>("Text");
   const maxTime = notes.at(-1)?.end || 0;
   const progress = now / maxTime * 100 | 0;
 
-  const textLevel = layout === "Full" ? 5 : 3;
+  const [textLevel, setTextLevel] = useState<1 | 2 | 3 | 4 | 5>(3);
 
   useEffect(() => {
     const s = new Set(notes.map((i) => i.code));
@@ -142,10 +142,23 @@ function App() {
                   </Typography.Link>
                 )}
             </Flex>
+            textsize:
+            <Select
+              value={textLevel}
+              style={{ width: 50 }}
+              onChange={(e) => {
+                setTextLevel(e);
+              }}
+              options={Array(5).fill(0).map((_, i) => ({
+                value: i + 1,
+                label: i + 1,
+              }))}
+            />
+
             layout:
             <Select
               value={layout}
-              style={{ width: 120 }}
+              style={{ width: 80 }}
               onChange={(e) => {
                 setLayout(e as Layout);
               }}
