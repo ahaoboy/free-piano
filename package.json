@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "update-mp3": "bun ./scripts/update-mp3.ts",
+    "update-full-mp3": "bun ./scripts/update-full-mp3.ts",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"

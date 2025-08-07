@@ -16,10 +16,14 @@
   align-items: center;
 }
 .note-white {
-  background: green;
+  background: var(--white-key-bg);
+  border: 2px solid var(--white-key-color);
+  color: var(--white-key-color);
 }
 .note-black {
-  background: darkblue;
+  background: var(--black-key-bg);
+  border: 2px solid var(--black-key-color);
+  color: var(--black-key-color);
 }
 
 .ant-tabs-tabpane {

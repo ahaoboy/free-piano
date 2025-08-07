@@ -26,6 +26,11 @@
   height: 100%;
 }
 
+.key-text {
+  padding: 0;
+  margin: 0;
+}
+
 .white-key {
   background: var(--white-key-bg);
   box-sizing: border-box;
@@ -47,6 +52,8 @@
   border: 2px solid var(--black-key-color);
   color: var(--black-key-color);
   flex-direction: column-reverse;
+  position: absolute;
+  height: 100%;
 }
 
 .piano-key.press-key.white-key {

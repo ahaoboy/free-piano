@@ -7,7 +7,7 @@ import {
   Button,
   ConfigProvider,
   Flex,
-  Progress,
+  Select,
   Slider,
   Switch,
   Tabs,
@@ -29,9 +29,13 @@ import {
 } from "@ant-design/icons";
 import { decode, NoteEvent } from "free-piano-midi";
 import { textToMidi } from "./core";
+import type { Layout } from "./layout";
+import { type AudioStyle, preloadMidi } from "./audio";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
-const FPS = 10;
+const FPS = 15;
+
+type TabPanel = "Text" | "Midi";
 
 function App() {
   const [showKey, setShowKey] = useState(true);
@@ -52,9 +56,20 @@ function App() {
     window.matchMedia("(prefers-color-scheme: dark)").matches,
   );
   const [inv, setInv] = useState(0);
-
+  const [layout, setLayout] = useState<Layout>("Full");
+  const [audioStyle, _setAudioStyle] = useState<AudioStyle>("Full");
+  const [tab, setTab] = useState<TabPanel>("Text");
   const maxTime = notes.at(-1)?.end || 0;
   const progress = now / maxTime * 100 | 0;
+
+  const [textLevel, setTextLevel] = useState<1 | 2 | 3 | 4 | 5>(3);
+
+  useEffect(() => {
+    const s = new Set(notes.map((i) => i.code));
+    for (const i of s) {
+      preloadMidi(i, audioStyle);
+    }
+  }, [notes]);
 
   useEffect(() => {
     getData().then((i) => {
@@ -88,6 +103,8 @@ function App() {
     setNow(0);
   }
 
+  const sliderMuteRef = useRef(false);
+  const sliderChangeRef = useRef(false);
   return (
     <ConfigProvider
       theme={{ algorithm: isDark ? darkAlgorithm : defaultAlgorithm }}
@@ -125,6 +142,31 @@ function App() {
                   </Typography.Link>
                 )}
             </Flex>
+            textsize:
+            <Select
+              value={textLevel}
+              style={{ width: 50 }}
+              onChange={(e) => {
+                setTextLevel(e);
+              }}
+              options={Array(5).fill(0).map((_, i) => ({
+                value: i + 1,
+                label: i + 1,
+              }))}
+            />
+
+            layout:
+            <Select
+              value={layout}
+              style={{ width: 80 }}
+              onChange={(e) => {
+                setLayout(e as Layout);
+              }}
+              options={[
+                { value: "Full", label: "Full" },
+                { value: "Small", label: "Small" },
+              ]}
+            />
 
             <Flex justify="center" align="center" gap="small">
               key:
@@ -229,6 +271,8 @@ function App() {
                   const fileBuffer = new Uint8Array(await file.arrayBuffer());
                   const v = await decode(fileBuffer);
                   setNotes(v || []);
+                  setLayout("Full");
+                  setTab("Midi");
                 }
               }}
             >
@@ -247,22 +291,36 @@ function App() {
             </Button>
 
             <Flex className="app-progress" justify="center" align="center">
-              <Progress
+              <Slider
                 className="progress-bar"
-                percent={progress}
-                percentPosition={{ align: "center", type: "inner" }}
-                size={[200, 20]}
-                strokeColor="#E6F4FF"
+                value={progress}
+                onChange={(e) => {
+                  setMute(true);
+                  setNow(maxTime * e / 100);
+                  if (!sliderChangeRef.current) {
+                    sliderMuteRef.current = mute;
+                  }
+                  sliderChangeRef.current = true;
+                }}
+                onChangeComplete={(e) => {
+                  setMute(sliderMuteRef.current);
+                  sliderChangeRef.current = false;
+                }}
               />
+              {progress}%
             </Flex>
           </Flex>
         </Flex>
         <Tabs
+          activeKey={tab}
+          onChange={(e) => {
+            setTab(e as TabPanel);
+          }}
           centered
           items={[
             {
-              key: "text",
-              label: "text",
+              key: "Text",
+              label: "Text",
               children: (
                 <Flex className="score-main">
                   <Typography.Title>{score}</Typography.Title>
@@ -270,15 +328,18 @@ function App() {
               ),
             },
             {
-              key: "midi",
-              label: "midi",
+              key: "Midi",
+              label: "Midi",
               children: (
                 <Flex className="app-rain">
                   <Rain
+                    audioStyle={audioStyle}
+                    layout={layout}
                     notes={notes}
                     now={now}
                     duration={10}
                     autoplay={autoplay}
+                    mute={mute}
                   >
                   </Rain>
                 </Flex>
@@ -290,10 +351,13 @@ function App() {
 
         <Flex className="app-piano">
           <Piano
+            audioStyle={audioStyle}
+            layout={layout}
             mute={mute}
             showNote={showNote}
             showKey={showKey}
             showSolfa={showSolfa}
+            textLevel={textLevel}
           />
         </Flex>
       </Flex>

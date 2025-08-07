@@ -1,48 +1,45 @@
 import React, { useEffect, useState } from "react";
-import Notes from "../notes";
 import "./Piano.css";
 import { Flex, Typography } from "antd";
-import { BlackKeys, getBlackOffsetX, KeyWidth, WhiteKeys } from "../core";
+import {
+  getBlackKeys,
+  getBlackOffsetX,
+  getKeyWidth,
+  getWhiteKeys,
+  type Layout,
+} from "../layout";
+import { getChar, getMidiFromEvent } from "../keymap";
+import { type AudioStyle, playMidi } from "../audio";
 
 const { Title } = Typography;
-interface Note {
-  id: number;
-  name: string;
-  keyCode: string;
-  key: string;
-  url: string;
-  type: string;
-  base64: string;
-}
 
 export type PianoProps = {
   showNote: boolean;
   showKey: boolean;
   showSolfa: boolean;
   mute: boolean;
+  layout: Layout;
+  audioStyle: AudioStyle;
+  textLevel: 1 | 2 | 3 | 4 | 5;
 };
 
 export const Piano: React.FC<PianoProps> = (
-  { showNote, showKey, showSolfa, mute }: PianoProps,
+  { showNote, showKey, showSolfa, mute, audioStyle, layout, textLevel }:
+    PianoProps,
 ) => {
-  const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
-  const [pressMap, setPressMap] = useState<Record<string, boolean>>({});
-  const playAudio = (url: string) => {
-    const audio = new Audio(url);
-    audio.play();
-  };
+  const [pressedKeys, setPressedKeys] = useState<Set<number>>(new Set());
 
-  const handleKeyDown = (note: Note) => {
-    if (!pressedKeys.has(note.keyCode)) {
-      setPressedKeys((prev) => new Set([...prev, note.keyCode]));
-      playAudio(note.base64);
+  const handleKeyDown = (midi: number) => {
+    if (!pressedKeys.has(midi)) {
+      setPressedKeys((prev) => new Set([...prev, midi]));
+      playMidi(midi, audioStyle);
     }
   };
 
-  const handleKeyUp = (keyCode: string) => {
+  const handleKeyUp = (midi: number) => {
     setPressedKeys((prev) => {
       const newSet = new Set(prev);
-      newSet.delete(keyCode);
+      newSet.delete(midi);
       return newSet;
     });
   };
@@ -52,17 +49,10 @@ export const Piano: React.FC<PianoProps> = (
       if (mute) {
         return;
       }
-      let keyCode = e.keyCode >= 96 && e.keyCode <= 105
-        ? (e.keyCode - (96 - 48)).toString()
-        : e.keyCode.toString();
-      if (e.shiftKey) {
-        keyCode = "b" + e.keyCode;
-      }
-
-      setPressMap({ ...pressMap, [keyCode]: true });
-      const note = Notes.find((n) => n.keyCode === keyCode);
-      if (note) {
-        handleKeyDown(note);
+      const midi = getMidiFromEvent(e);
+      if (midi) {
+        setPressedKeys((prev) => new Set([...prev, midi]));
+        handleKeyDown(midi);
       }
     };
 
@@ -70,18 +60,9 @@ export const Piano: React.FC<PianoProps> = (
       if (mute) {
         return;
       }
-      let keyCode = e.keyCode >= 96 && e.keyCode <= 105
-        ? (e.keyCode - (96 - 48)).toString()
-        : e.keyCode.toString();
-
-      if (e.shiftKey) {
-        keyCode = "b" + e.keyCode.toString();
-      }
-      setPressMap({ ...pressMap, [keyCode]: false });
-
-      const note = Notes.find((n) => n.keyCode === keyCode);
-      if (note) {
-        handleKeyUp(note.keyCode);
+      const midi = getMidiFromEvent(e);
+      if (midi) {
+        handleKeyUp(midi);
       }
     };
 
@@ -94,21 +75,24 @@ export const Piano: React.FC<PianoProps> = (
     };
   });
 
+  const WhiteKeys = getWhiteKeys(layout);
+  const KeyWidth = getKeyWidth(layout);
+  const BlackKeys = getBlackKeys(layout);
+
   return (
     <Flex className="piano-container">
       <Flex className="white-keys">
         {WhiteKeys.map((i, index) => (
           <Flex
-            key={i.keyCode}
+            key={i.midi}
             className={"piano-key white-key" +
-              (pressMap[i.keyCode] ? " press-key" : "")}
+              (pressedKeys.has(i.midi) ? " press-key" : "")}
             onClick={() => {
-              playAudio(i.base64);
+              playMidi(i.midi, audioStyle);
             }}
             vertical
             style={{
               width: KeyWidth,
-              // transform: getWhiteOffsetX(index),
             }}
           >
             {showSolfa && (
@@ -116,8 +100,14 @@ export const Piano: React.FC<PianoProps> = (
                 {["do", "re", "mi", "fa", "so", "la", "si"][index % 5]}
               </Title>
             )}
-            {showNote && <Title>{i.name}</Title>}
-            {showKey && <Title>{i.char}</Title>}
+            {showNote && (
+              <Title className="key-text" level={textLevel}>{i.name}</Title>
+            )}
+            {showKey && (
+              <Title className="key-text" level={textLevel}>
+                {getChar(i.midi)}
+              </Title>
+            )}
           </Flex>
         ))}
       </Flex>
@@ -125,21 +115,29 @@ export const Piano: React.FC<PianoProps> = (
       <Flex className="black-keys">
         {BlackKeys.map((i, index) => (
           <Flex
-            key={i.keyCode}
+            key={i.midi}
             className={`piano-key black-key BlackIndex_${index} ` +
-              (pressMap[i.keyCode] ? " press-key" : "")}
+              (pressedKeys.has(i.midi) ? " press-key" : "")}
             onClick={() => {
-              playAudio(i.base64);
+              playMidi(i.midi, audioStyle);
             }}
             vertical
             style={{
               width: KeyWidth,
-              transform: getBlackOffsetX(index),
+              transform: `translateX(calc(${
+                getBlackOffsetX(index, layout)
+              } * 100%))`,
             }}
             align="center"
           >
-            {showNote && <Title>{i.name}</Title>}
-            {showKey && <Title>{i.char}</Title>}
+            {showNote && (
+              <Title className="key-text" level={textLevel}>{i.name}</Title>
+            )}
+            {showKey && (
+              <Title className="key-text" level={textLevel}>
+                {getChar(i.midi)}
+              </Title>
+            )}
           </Flex>
         ))}
       </Flex>
