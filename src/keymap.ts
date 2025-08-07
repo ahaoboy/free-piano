@@ -102,12 +102,17 @@ export function getEventKey(midi: number): string {
   return CharMap[name];
 }
 
-export function getMidiFromEvent(e: KeyboardEvent) {
+export function getMidiFromChar(c: string) {
   for (const i of Notes) {
-    if (getChar(i.midi) === e.key) {
+    if (getChar(i.midi) === c) {
       return i.midi;
     }
   }
+  return 0
+}
+
+export function getMidiFromEvent(e: KeyboardEvent) {
+  getMidiFromChar(e.key)
 }
 
 export function getNoteName(midi: number) {

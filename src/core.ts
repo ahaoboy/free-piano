@@ -1,4 +1,5 @@
 import type { NoteEvent } from "free-piano-midi";
+import { getMidiFromChar, } from "./keymap";
 
 export function midiNoteToVirtualPianoName(midi: number): string {
   const noteNames = [
@@ -20,12 +21,6 @@ export function midiNoteToVirtualPianoName(midi: number): string {
   const octave = Math.floor(midi / 12);
   return note + octave;
 }
-
-// export function getWhiteOffsetX(index: number) {
-//   let offset = 0;
-//   const translateX = `translateX(calc(${offset * 0.5 * 100}%))`;
-//   return translateX;
-// }
 
 export function textToMidi(input: string): NoteEvent[] {
   // Mapping characters to MIDI note numbers starting from 60 (middle C)
@@ -61,7 +56,7 @@ export function textToMidi(input: string): NoteEvent[] {
       for (const c of chordChars) {
         if (c in charToNote) {
           events.push({
-            code: 0,
+            code: getMidiFromChar(char),
             start: t,
             end: t + d,
             free: () => { },
@@ -73,11 +68,11 @@ export function textToMidi(input: string): NoteEvent[] {
     } // Handle single notes
     else if (char in charToNote) {
       events.push({
-        code: 0,
+        code: getMidiFromChar(char),
         start: t,
         end: t + d,
         free: () => { },
-      }  );
+      });
       i++;
       t += d; // Advance time after the note
     } // Ignore unrecognized characters

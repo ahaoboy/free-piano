@@ -249,6 +249,7 @@ function App() {
                 if (["txt"].includes(ext)) {
                   const txt = (await info.file.originFileObj?.text()) || "";
                   setScore(txt);
+                  const notes = textToMidi(txt)
                   setNotes(textToMidi(txt));
                   return;
                 }
@@ -258,7 +259,8 @@ function App() {
                   const doc = parser.parseFromString(html, "text/html");
                   const txt = doc.body.textContent || "";
                   setScore(txt);
-                  setNotes(textToMidi(txt));
+                  const notes = textToMidi(txt)
+                  setNotes(notes);
                   return;
                 }
 
