@@ -31,6 +31,7 @@ import { decode, NoteEvent } from "free-piano-midi";
 import { textToMidi } from "./core";
 import type { Layout } from "./layout";
 import { type AudioStyle, preloadMidi } from "./audio";
+import { clamp } from "es-toolkit";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const FPS = 15;
@@ -60,7 +61,7 @@ function App() {
   const [audioStyle, _setAudioStyle] = useState<AudioStyle>("Full");
   const [tab, setTab] = useState<TabPanel>("Text");
   const maxTime = notes.at(-1)?.end || 0;
-  const progress = now / maxTime * 100 | 0;
+  const progress = clamp(now / maxTime * 100 | 0, 0, 100);
 
   const [textLevel, setTextLevel] = useState<1 | 2 | 3 | 4 | 5>(3);
 
@@ -243,6 +244,7 @@ function App() {
                   return;
                 }
 
+                pause()
                 const ext = info.file.name.split(".").at(-1)?.toLowerCase() ||
                   "";
 
@@ -250,7 +252,7 @@ function App() {
                   const txt = (await info.file.originFileObj?.text()) || "";
                   setScore(txt);
                   const notes = textToMidi(txt)
-                  setNotes(textToMidi(txt));
+                  setNotes(notes);
                   return;
                 }
                 if ("html".includes(ext)) {
