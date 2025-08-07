@@ -53,7 +53,7 @@ function App() {
   const [notes, setNotes] = useState<NoteEvent[]>([]);
   const [now, setNow] = useState(0);
   const [isDark, setIsDark] = useState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches,
+    globalThis.matchMedia("(prefers-color-scheme: dark)").matches,
   );
   const [inv, setInv] = useState(0);
   const [layout, setLayout] = useState<Layout>("Full");
@@ -115,7 +115,7 @@ function App() {
           vertical
           justify="center"
           align="center"
-          gap={"small"}
+          gap="small"
         >
           <Flex justify="center" align="center" gap="small">
             <Flex
@@ -278,7 +278,7 @@ function App() {
             >
               <Button icon={<UploadOutlined />}>Upload</Button>
             </Upload>
-            {!!inv
+            {inv
               ? <Button icon={<PauseOutlined />} onClick={pause}>Pause</Button>
               : (
                 <Button icon={<PlayCircleOutlined />} onClick={play}>
@@ -303,6 +303,7 @@ function App() {
                   sliderChangeRef.current = true;
                 }}
                 onChangeComplete={(e) => {
+                  setNow(maxTime * e / 100);
                   setMute(sliderMuteRef.current);
                   sliderChangeRef.current = false;
                 }}

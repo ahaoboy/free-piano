@@ -21,11 +21,11 @@ export function midiNoteToVirtualPianoName(midi: number): string {
   return note + octave;
 }
 
-export function getWhiteOffsetX(index: number) {
-  let offset = 0;
-  const translateX = `translateX(calc(${offset * 0.5 * 100}%))`;
-  return translateX;
-}
+// export function getWhiteOffsetX(index: number) {
+//   let offset = 0;
+//   const translateX = `translateX(calc(${offset * 0.5 * 100}%))`;
+//   return translateX;
+// }
 
 export function textToMidi(input: string): NoteEvent[] {
   // Mapping characters to MIDI note numbers starting from 60 (middle C)
@@ -33,7 +33,7 @@ export function textToMidi(input: string): NoteEvent[] {
   let note = 60;
   for (
     const char
-      of "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@$%^*("
+    of "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@$%^*("
   ) {
     charToNote[char] = note++;
   }
@@ -61,12 +61,11 @@ export function textToMidi(input: string): NoteEvent[] {
       for (const c of chordChars) {
         if (c in charToNote) {
           events.push({
-            char: c,
             code: 0,
             start: t,
             end: t + d,
-            free: () => {},
-          } as any);
+            free: () => { },
+          });
         }
       }
       i = endIndex + 1;
@@ -75,11 +74,10 @@ export function textToMidi(input: string): NoteEvent[] {
     else if (char in charToNote) {
       events.push({
         code: 0,
-        char: char,
         start: t,
         end: t + d,
-        free: () => {},
-      } as any);
+        free: () => { },
+      }  );
       i++;
       t += d; // Advance time after the note
     } // Ignore unrecognized characters
