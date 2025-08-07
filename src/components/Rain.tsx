@@ -48,12 +48,10 @@ function getNoteOffsetX(note: NoteEvent, layout: Layout) {
   if (isBlack(note.code)) {
     const index = BlackKeys.findIndex((i) => i.midi === note.code);
     const offset = getBlackOffsetX(index, layout);
-    const translateX = `translateX(calc(${offset * 100}%))`;
-    return translateX;
+    return offset
   } else {
     const index = WhiteKeys.findIndex((i) => i.midi === note.code);
-    const translateX = `translateX(calc(${index * 100}%))`;
-    return translateX;
+    return index
   }
 }
 
@@ -64,8 +62,8 @@ function getNoteOffsetY(
   height: number,
 ) {
   const offsetTop = 1 - (note.start - now) / duration;
-  const translateX = `translateY(calc(${offsetTop * 100 * 100 / height}%))`;
-  return translateX;
+  const translateY = `translateY(calc(${(offsetTop * 100 * 100) / height}%))`;
+  return translateY;
 }
 
 function Note({ note, now, duration, layout }: NoteProps) {
@@ -88,7 +86,7 @@ function Note({ note, now, duration, layout }: NoteProps) {
         width: KeyWidth,
         height: 2 + "%",
         // top: -height + "%",
-        transform: `${offsetX} ${offsetY}`,
+        transform: `translateX(calc(${offsetX * 100}%)) ${offsetY}`,
       }}
     >
       {getChar(note.code)}

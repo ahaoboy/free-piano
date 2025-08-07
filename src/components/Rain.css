@@ -18,9 +18,11 @@
 .note-white {
   background: var(--white-key-bg);
   border: 2px solid var(--white-key-color);
+  box-sizing: border-box;
   color: var(--white-key-color);
 }
 .note-black {
+  box-sizing: border-box;
   background: var(--black-key-bg);
   border: 2px solid var(--black-key-color);
   color: var(--black-key-color);
