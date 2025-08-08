@@ -1,7 +1,17 @@
 {
   "name": "free-piano",
   "version": "0.1.0",
-  "type": "module",
+  "files": [
+    "lib",
+    "README.md",
+    "package.json"
+  ],
+  "keywords": ["free-piano"],
+  "description": "free-piano",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "types": "lib/index.d.ts",
+  "homepage": "https://github.com/ahoboy/free-piano",
   "scripts": {
     "build:lib": "tsc -p ./tsconfig.build.json",
     "update-mp3": "bun ./scripts/update-mp3.ts",
