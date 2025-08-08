@@ -1,5 +1,5 @@
 export type Layout = "Full" | "Small";
-import Notes from "./notes";
+import {Notes} from "./notes";
 
 export function getKeyWidth(layout: Layout) {
   return `calc(100% / ${getWhiteKeys(layout).length})`;

@@ -1,4 +1,4 @@
-import Notes from "./notes";
+import { Notes } from "./notes";
 
 const CharMap: Record<string, string> = {
   "A0": "-",

@@ -4,7 +4,7 @@ export type Note = {
   name: string;
   isBlack: boolean;
 };
-const Notes: Note[] = Array(88).fill(0).map((_, i) => {
+export const Notes: Note[] = Array(88).fill(0).map((_, i) => {
   const midi = i + 21;
   const name = getNoteName(midi);
   return {
@@ -13,5 +13,3 @@ const Notes: Note[] = Array(88).fill(0).map((_, i) => {
     isBlack: isBlack(midi),
   };
 });
-
-export default Notes;
