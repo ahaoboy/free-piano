@@ -4,7 +4,7 @@ import analyzer from "vite-bundle-analyzer";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "https://ahaoboy.github.io/js-engine-benchmark/",
+  base: "/free-piano",
   plugins: [
     react(),
     analyzer({
