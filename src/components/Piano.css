@@ -57,5 +57,8 @@
 }
 
 .piano-key.press-key.white-key {
-  background: var(--white-key-highlight);
+  border-color: yellow;
+}
+.piano-key.press-key.black-key {
+  border-color: yellow;
 }
